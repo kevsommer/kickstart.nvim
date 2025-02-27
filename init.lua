@@ -204,6 +204,15 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+vim.api.nvim_create_autocmd('BufWritePre', {
+  pattern = { '*.pl', '*.pm', '*t' },
+  callback = function()
+    local line, col = unpack(vim.api.nvim_win_get_cursor(0)) -- Save cursor position
+    vim.cmd '%!perltidy' -- Run Perltidy
+    pcall(vim.api.nvim_win_set_cursor, 0, { line, col }) -- Restore cursor position
+  end,
+})
+
 -- [[ Install `lazy.nvim` plugin manager ]]
 --    See `:help lazy.nvim.txt` or https://github.com/folke/lazy.nvim for more info
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'

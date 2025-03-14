@@ -562,6 +562,22 @@ require('lazy').setup({
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         -- ts_ls = {},
         --
+        volar = {
+          root_dir = vim.fs.root(0, 'package.json'),
+          filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+          init_options = {
+            vue = {
+              -- disable hybrid mode
+              hybridMode = false,
+            },
+          },
+          on_attach = function(client, bufnr)
+            -- Disable Volar's formatting capability
+            if client.name == 'volar' then
+              client.server_capabilities.documentFormattingProvider = false
+            end
+          end,
+        },
 
         lua_ls = {
           -- cmd = { ... },
@@ -649,6 +665,9 @@ require('lazy').setup({
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
+        javascript = { 'eslint_d' },
+        typescript = { 'eslint_d' },
+        vue = { 'eslint_d' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --

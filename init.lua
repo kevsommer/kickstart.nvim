@@ -84,6 +84,14 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
+-- Configures file jumping in Perl
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'perl',
+  callback = function()
+    -- Set path resolution to ONLY look in core/lib
+    vim.opt_local.path = { 'core/lib' }
+  end,
+})
 
 -- Highlight when yanking (copying) text
 vim.api.nvim_create_autocmd('TextYankPost', {

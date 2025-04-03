@@ -779,6 +779,27 @@ require('lazy').setup({
     end,
   },
 
+  {
+    'xiyaowong/transparent.nvim',
+    opts = {
+      extra_groups = {
+        'Normal', -- Normal text background
+        'NormalNC', -- Non-current window background
+        'LineNr', -- Line numbers
+        'SignColumn', -- Sign column (gutter)
+        'EndOfBuffer', -- ~ lines after end of file
+        'MsgArea', -- Messages below cmdline
+        'FloatBorder', -- Floating window borders
+        'Pmenu', -- Popup menu
+      },
+    },
+    config = function(_, opts)
+      require('transparent').setup(opts)
+      -- Enable transparency forcefully
+      vim.cmd 'TransparentEnable'
+    end,
+  },
+
   { -- You can easily change to a different colorscheme.
     -- Change the name of the colorscheme plugin below, and then
 

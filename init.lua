@@ -519,6 +519,15 @@ require('lazy').setup({
         -- But for many setups, the LSP (`ts_ls`) will work just fine
         -- ts_ls = {},
         --
+        elixirls = {
+          cmd = { vim.fn.expand '~/elixir-ls/release/language_server.sh' },
+          settings = {
+            elixirLS = {
+              fetchDeps = false,
+              dialyzerEnabled = false,
+            },
+          },
+        },
         volar = {
           root_dir = vim.fs.root(0, 'package.json'),
           filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },

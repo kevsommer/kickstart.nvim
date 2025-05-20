@@ -82,6 +82,11 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
+vim.api.nvim_create_user_command('Enew', function(opts)
+  local current_dir = vim.fn.expand '%:h'
+  local new_path = current_dir .. '/' .. opts.args
+  vim.cmd('edit ' .. new_path)
+end, { nargs = 1, complete = 'file' })
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 -- Configures file jumping in Perl

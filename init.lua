@@ -87,6 +87,33 @@ vim.api.nvim_create_user_command('Enew', function(opts)
   local new_path = current_dir .. '/' .. opts.args
   vim.cmd('edit ' .. new_path)
 end, { nargs = 1, complete = 'file' })
+
+vim.api.nvim_create_user_command('Etest', function()
+  local filepath = vim.api.nvim_buf_get_name(0)
+
+  local test_filepath = nil
+
+  if filepath:match '%.ex$' then
+    -- Elixir source file
+    test_filepath = filepath:gsub('%.ex$', '_test.exs')
+  elseif filepath:match '%.vue$' then
+    -- Vue component file
+    test_filepath = filepath:gsub('%.vue$', '.Spec.ts')
+  else
+    print 'Unsupported file type.'
+    return
+  end
+
+  -- Try to open the test file
+  local f = io.open(test_filepath, 'r')
+  if f ~= nil then
+    io.close(f)
+    vim.cmd('edit ' .. vim.fn.fnameescape(test_filepath))
+  else
+    print('Test file not found: ' .. test_filepath)
+  end
+end, { desc = 'Open corresponding test file for Elixir or Vue' })
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 -- Configures file jumping in Perl

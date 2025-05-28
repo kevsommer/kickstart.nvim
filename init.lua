@@ -162,6 +162,7 @@ vim.opt.rtp:prepend(lazypath)
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
+  'github/copilot.vim',
   {
     'ThePrimeagen/harpoon',
     branch = 'harpoon2',
@@ -401,6 +402,9 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
 
+      vim.keymap.set('n', '<leader>sl', function()
+        vim.diagnostic.open_float(nil, { focusable = false })
+      end, { desc = 'Show diagnostics in floating window' })
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()
         -- You can pass additional configuration to Telescope to change the theme, layout, etc.

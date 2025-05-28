@@ -82,6 +82,14 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
+local function insert_lowercase_uuid()
+  local uuid = vim.fn.system 'uuidgen:'
+  uuid = uuid:gsub('\n', ''):lower()
+  vim.api.nvim_put({ uuid }, 'c', true, true)
+end
+
+vim.api.nvim_create_user_command('Iuuid', insert_lowercase_uuid, {})
+
 vim.api.nvim_create_user_command('Enew', function(opts)
   local current_dir = vim.fn.expand '%:h'
   local new_path = current_dir .. '/' .. opts.args

@@ -107,6 +107,9 @@ vim.api.nvim_create_user_command('Etest', function()
   elseif filepath:match '%.vue$' then
     -- Vue component file
     test_filepath = filepath:gsub('%.vue$', '.Spec.ts')
+  elseif filepath:match '%.ts$' then
+    -- Typescript file
+    test_filepath = filepath:gsub('%.ts$', '.Spec.ts')
   else
     print 'Unsupported file type.'
     return

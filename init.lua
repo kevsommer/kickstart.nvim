@@ -81,9 +81,8 @@ vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left wind
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
-
 local function insert_lowercase_uuid()
-  local uuid = vim.fn.system 'uuidgen:'
+  local uuid = vim.fn.system 'uuidgen'
   uuid = uuid:gsub('\n', ''):lower()
   vim.api.nvim_put({ uuid }, 'c', true, true)
 end
@@ -161,7 +160,6 @@ vim.opt.rtp:prepend(lazypath)
 --
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
-  -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'github/copilot.vim',
   {
     'ThePrimeagen/harpoon',

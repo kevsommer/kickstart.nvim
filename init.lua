@@ -201,6 +201,10 @@ require('lazy').setup({
     end,
   },
   {
+    'numToStr/Comment.nvim',
+    opts = {},
+  },
+  {
     'tpope/vim-fugitive',
     cmd = { 'Git', 'Gstatus', 'Gcommit', 'Gpush', 'Gpull' }, -- lazy-load on these commands
     dependencies = { 'tpope/vim-rhubarb' }, -- optional (GitHub integration)

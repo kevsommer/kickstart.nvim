@@ -36,6 +36,9 @@ vim.opt.signcolumn = 'yes'
 -- Decrease update time
 vim.opt.updatetime = 250
 
+-- Set grep to rg
+vim.opt.grepprg = 'rg --vimgrep'
+
 -- Decrease mapped sequence wait time
 vim.opt.timeoutlen = 300
 

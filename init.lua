@@ -666,7 +666,58 @@ require('lazy').setup({
       },
     },
   },
+  {
+    'mfussenegger/nvim-lint',
+    event = { 'BufReadPost', 'BufNewFile' }, -- Lazy-load on file open
+    config = function()
+      local lint = require 'lint'
 
+      -- Define Credo linter
+      lint.linters.credo = {
+        cmd = 'mix',
+        args = {
+          'credo',
+          'suggest',
+          '--format',
+          'flycheck',
+          '--read-from-stdin',
+          '--strict', -- Optional: for stricter checks
+        },
+        stdin = true,
+        stream = 'stdout',
+        ignore_exitcode = true, -- Credo may exit with non-zero for warnings
+        parser = function(output, bufnr)
+          local diagnostics = {}
+          for _, line in ipairs(vim.split(output, '\n')) do
+            -- Parse flycheck format: file:line:col: severity: message
+            local fname, lnum, col, severity, msg = line:match '^([^:]+):(%d+):(%d+): (%w+): (.+)$'
+            if fname and lnum and col and severity then
+              table.insert(diagnostics, {
+                lnum = tonumber(lnum) - 1, -- Neovim uses 0-based lines
+                col = tonumber(col) - 1, -- 0-based columns
+                message = msg,
+                severity = severity == 'warning' and vim.diagnostic.severity.WARN or vim.diagnostic.severity.ERROR,
+                source = 'credo',
+              })
+            end
+          end
+          return diagnostics
+        end,
+      }
+
+      -- Set Elixir files to use Credo
+      lint.linters_by_ft = {
+        elixir = { 'credo' },
+      }
+
+      -- Auto-trigger linting on save
+      vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
+        callback = function()
+          lint.try_lint()
+        end,
+      })
+    end,
+  },
   { -- Autocompletion
     'hrsh7th/nvim-cmp',
     event = 'InsertEnter',
@@ -790,25 +841,17 @@ require('lazy').setup({
     end,
   },
 
-  { -- You can easily change to a different colorscheme.
-    -- Change the name of the colorscheme plugin below, and then
-
-    -- change the command in the config to whatever the name of that colorscheme is.
-    --
-    -- If you want to see what colorschemes are already installed, you can use `:Telescope colorscheme`.
+  {
     'folke/tokyonight.nvim',
     priority = 1000, -- Make sure to load this before all the other start plugins.
     config = function()
       ---@diagnostic disable-next-line: missing-fields
       require('tokyonight').setup {
         styles = {
-          comments = { italic = false }, -- Disable italics in comments
+          comments = { italic = false },
         },
       }
       vim.cmd 'colorscheme tokyonight-moon'
-      -- Load the colorscheme here.
-      -- Like many other themes, this one has different styles, and you could load
-      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
     end,
   },
 

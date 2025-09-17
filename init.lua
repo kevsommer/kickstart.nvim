@@ -44,6 +44,57 @@ vim.api.nvim_create_user_command('Etest', function()
   end
 end, { desc = 'Open corresponding test file for Elixir or Vue' })
 
+vim.api.nvim_create_user_command('Efile', function()
+  local filepath = vim.api.nvim_buf_get_name(0)
+
+  local source_filepath = nil
+
+  if filepath:match '_test%.exs$' then
+    -- Elixir test file
+    source_filepath = filepath:gsub('_test%.exs$', '.ex')
+  elseif filepath:match '%.Spec%.ts$' then
+    -- Vue or TypeScript test file - check for Vue first
+    local potential_vue = filepath:gsub('%.Spec%.ts$', '.vue')
+    local f = io.open(potential_vue, 'r')
+    if f ~= nil then
+      -- Vue file exists
+      io.close(f)
+      source_filepath = potential_vue
+    else
+      -- No Vue file, assume TypeScript
+      source_filepath = filepath:gsub('%.Spec%.ts$', '.ts')
+    end
+  else
+    print 'Unsupported test file type.'
+    return
+  end
+
+  -- Try to open the source file
+  local f = io.open(source_filepath, 'r')
+  if f ~= nil then
+    io.close(f)
+    vim.cmd('edit ' .. vim.fn.fnameescape(source_filepath))
+  else
+    print('Source file not found: ' .. source_filepath)
+  end
+end, { desc = 'Open corresponding source file from test file' })
+
+-- Toggle between test and source files
+vim.keymap.set('n', '<C-y>', function()
+  local filepath = vim.api.nvim_buf_get_name(0)
+
+  -- Check if current file is a test file
+  if filepath:match '_test%.exs$' or filepath:match '%.Spec%.ts$' then
+    -- It's a test file, open source file
+    vim.cmd 'Efile'
+  elseif filepath:match '%.ex$' or filepath:match '%.vue$' or filepath:match '%.ts$' then
+    -- It's a source file, open test file
+    vim.cmd 'Etest'
+  else
+    print 'Unsupported file type for test/source toggle.'
+  end
+end, { desc = 'Toggle between test and source file' })
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 -- Configures file jumping in Perl

@@ -13,6 +13,29 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
+-- manual trigger for LSP diagnostics
+vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float)
+
+vim.diagnostic.config {
+  virtual_text = {
+    -- Only show source (like 'typescript')
+    format = function(diagnostic)
+      return string.format('%s [%s]', diagnostic.message, diagnostic.source)
+    end,
+    -- Or show just the first line
+    format = function(diagnostic)
+      return diagnostic.message:match '([^\n]*)'
+    end,
+    -- Prefix with icon only
+    prefix = '●',
+  },
+  -- Show full diagnostic in floating window
+  float = {
+    source = 'always',
+    border = 'rounded',
+  },
+}
+
 -- Highlight when yanking (copying) text
 vim.api.nvim_create_autocmd('TextYankPost', {
   desc = 'Highlight when yanking (copying) text',
@@ -105,19 +128,6 @@ require('lazy').setup({
     end,
   },
 
-  -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
-  --
-  -- This is often very useful to both group configuration, as well as handle
-  -- lazy loading plugins that don't need to be loaded immediately at startup.
-  --
-  -- For example, in the following configuration, we use:
-  --  event = 'VimEnter'
-  --
-  -- which loads which-key before all the UI elements are loaded. Events can be
-  -- normal autocommands events (`:help autocmd-events`).
-  --
-  -- Then, because we use the `opts` key (recommended), the configuration runs
-  -- after the plugin has been loaded as `require(MODULE).setup(opts)`.
   {
     'folke/snacks.nvim',
     priority = 1000,
@@ -573,6 +583,19 @@ require('lazy').setup({
     end,
   },
 
+  -- NOTE: Plugins can also be configured to run Lua code when they are loaded.
+  --
+  -- This is often very useful to both group configuration, as well as handle
+  -- lazy loading plugins that don't need to be loaded immediately at startup.
+  --
+  -- For example, in the following configuration, we use:
+  --  event = 'VimEnter'
+  --
+  -- which loads which-key before all the UI elements are loaded. Events can be
+  -- normal autocommands events (`:help autocmd-events`).
+  --
+  -- Then, because we use the `opts` key (recommended), the configuration runs
+  -- after the plugin has been loaded as `require(MODULE).setup(opts)`.
   { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
@@ -980,9 +1003,6 @@ require('lazy').setup({
       vim.api.nvim_set_hl(0, 'ColorColumn', { bg = '#2a2e3f' })
     end,
   },
-
-  -- Highlight todo, notes, etc in comments
-  { 'folke/todo-comments.nvim', event = 'VimEnter', dependencies = { 'nvim-lua/plenary.nvim' }, opts = { signs = false } },
 
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',

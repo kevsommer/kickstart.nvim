@@ -91,3 +91,53 @@ vim.keymap.set('n', '<C-y>', function()
     print 'Unsupported file type for test/source toggle.'
   end
 end, { desc = 'Toggle between test and source file' })
+
+vim.api.nvim_create_user_command('AL', function()
+  local buf = vim.api.nvim_get_current_buf()
+  local filename = vim.api.nvim_buf_get_name(buf)
+
+  -- Only for .ex files
+  if not filename:match '%.ex$' then
+    print 'SortAliasBlock: Only allowed for .ex files.'
+    return
+  end
+
+  local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
+
+  local start_idx, end_idx = nil, nil
+  for i, line in ipairs(lines) do
+    if line:match '^%s*alias ' then
+      if not start_idx then
+        start_idx = i
+      end
+      end_idx = i
+    elseif start_idx and line:match '^%s*$' then
+      -- ignore empty lines in block
+    elseif start_idx then
+      -- Block ends
+      break
+    end
+  end
+
+  if not start_idx or not end_idx then
+    print 'No alias block found.'
+    return
+  end
+
+  -- Extract & sort
+  local alias_lines = {}
+  for i = start_idx, end_idx do
+    local line = lines[i]
+    if line:match '^%s*alias ' then
+      table.insert(alias_lines, line)
+    end
+  end
+  table.sort(alias_lines)
+
+  -- Replace lines
+  vim.api.nvim_buf_set_lines(buf, start_idx - 1, end_idx, false, alias_lines)
+
+  -- Save file
+  vim.cmd 'write'
+  print 'Alias block sorted and saved.'
+end, {})

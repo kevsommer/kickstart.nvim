@@ -850,8 +850,8 @@ require('lazy').setup({
       -- nvim 0.11 or above
       vim.lsp.config('vtsls', vtsls_config)
       vim.lsp.config('vue_ls', vue_ls_config)
-      vim.lsp.config('ts_ls', ts_ls_config)
-      vim.lsp.enable { 'ts_ls', 'vue_ls' } -- If using `ts_ls` replace `vtsls` to `ts_ls`
+      -- vim.lsp.config('ts_ls', ts_ls_config)
+      vim.lsp.enable { 'vtsls', 'vue_ls' } -- If using `ts_ls` replace `vtsls` to `ts_ls`
 
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('kickstart-lsp-attach', { clear = true }),
@@ -1014,34 +1014,12 @@ require('lazy').setup({
             },
           },
         },
-        -- volar = {
-        --   root_dir = vim.fs.root(0, 'package.json'),
-        --   filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
-        --   init_options = {
-        --     vue = {
-        --       -- disable hybrid mode
-        --       hybridMode = false,
-        --     },
-        --   },
-        --   on_attach = function(client, bufnr)
-        --     -- Disable Volar's formatting capability
-        --     if client.name == 'volar' then
-        --       client.server_capabilities.documentFormattingProvider = false
-        --     end
-        --   end,
-        -- },
-
         lua_ls = {
-          -- cmd = { ... },
-          -- filetypes = { ... },
-          -- capabilities = {},
           settings = {
             Lua = {
               completion = {
                 callSnippet = 'Replace',
               },
-              -- You can toggle below to ignore Lua_LS's noisy `missing-fields` warnings
-              -- diagnostics = { disable = { 'missing-fields' } },
             },
           },
         },

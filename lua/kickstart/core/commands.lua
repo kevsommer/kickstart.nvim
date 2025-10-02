@@ -4,6 +4,10 @@ local function insert_lowercase_uuid()
   vim.api.nvim_put({ uuid }, 'c', true, true)
 end
 
+vim.api.nvim_create_user_command('G', 'Git', {})
+vim.api.nvim_create_user_command('W', 'write', {})
+vim.api.nvim_create_user_command('Q', 'quit', {})
+
 vim.api.nvim_create_user_command('Iuuid', insert_lowercase_uuid, {})
 
 vim.api.nvim_create_user_command('Enew', function(opts)

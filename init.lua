@@ -1408,6 +1408,7 @@ require('lazy').setup({
         },
       }
       vim.cmd 'colorscheme tokyonight-moon'
+      vim.api.nvim_set_hl(0, 'ColorColumn', { bg = '#2a2e3f' })
     end,
   },
 

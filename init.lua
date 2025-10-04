@@ -804,8 +804,9 @@ require('lazy').setup({
         lua = { 'stylua' },
         javascript = { 'eslint_d' },
         typescript = { 'eslint_d' },
-        vue = { 'eslint_d' },
+        vue = { 'eslint_d', 'prettierd' },
         perl = { 'perltidy' },
+        go = { 'gofumpt', 'goimports' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --

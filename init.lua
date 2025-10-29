@@ -639,8 +639,6 @@ require('lazy').setup({
         { '<leader>d', group = '[D]ocument' },
         { '<leader>r', group = '[R]ename' },
         { '<leader>s', group = '[S]earch' },
-        { '<leader>w', group = '[W]orkspace' },
-        { '<leader>t', group = '[T]oggle' },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
       },
     },
@@ -951,6 +949,14 @@ require('lazy').setup({
           { name = 'nvim_lsp_signature_help' },
         },
       }
+    end,
+  },
+
+  {
+    'rose-pine/neovim',
+    name = 'rose-pine',
+    config = function()
+      vim.cmd 'colorscheme rose-pine'
     end,
   },
 

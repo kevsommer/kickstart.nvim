@@ -13,9 +13,6 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
--- manual trigger for LSP diagnostics
-vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float)
-
 vim.diagnostic.config {
   virtual_text = {
     -- Only show source (like 'typescript')
@@ -279,10 +276,6 @@ require('lazy').setup({
 
       -- See `:help telescope.builtin`
       local builtin = require 'telescope.builtin'
-      vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = '[S]earch [H]elp' })
-      vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
-      vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
-      vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
 
       vim.keymap.set('n', '<leader>sl', function()
         vim.diagnostic.open_float(nil, { focusable = false })

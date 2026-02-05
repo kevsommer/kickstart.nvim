@@ -57,8 +57,31 @@ vim.opt.rtp:prepend(lazypath)
 -- [[ Configure and install plugins ]]
 --
 -- NOTE: Here is where you install your plugins.
-require('lazy').setup({
-  'github/copilot.vim',
+--
+-- You can configure plugins using the `config` key. This will automatically run
+--
+require('lazy').setup {
+  {
+    'github/copilot.vim',
+    config = function()
+      vim.keymap.set('i', '<C-J>', 'copilot#Accept("\\<CR>")', {
+        expr = true,
+        replace_keycodes = false,
+      })
+
+      vim.keymap.set('i', '<C-K>', 'copilot#AcceptWord("\\<CR>")', {
+        expr = true,
+        replace_keycodes = false,
+      })
+
+      vim.keymap.set('i', '<C-S-K>', 'copilot#AcceptLine("\\<CR>")', {
+        expr = true,
+        replace_keycodes = false,
+      })
+
+      vim.g.copilot_no_tab_map = true
+    end,
+  },
   {
     'ThePrimeagen/harpoon',
     branch = 'harpoon2',

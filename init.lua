@@ -335,14 +335,14 @@ require('lazy').setup {
         end
         return {
           timeout_ms = 500,
-          lsp_format = lsp_format_opt,
+          lsp_format = 'never',
         }
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
         javascript = { 'eslint_d' },
         typescript = { 'eslint_d' },
-        vue = { 'eslint_d', 'prettierd' },
+        vue = { 'eslint_d' },
         perl = { 'perltidy' },
         go = { 'gofumpt', 'goimports' },
       },
@@ -615,7 +615,7 @@ require('lazy').setup {
   --
   --  Uncomment the following line and add your plugins to `lua/custom/plugins/*.lua` to get going.
   -- { import = 'custom.plugins' },
-})
+}
 
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

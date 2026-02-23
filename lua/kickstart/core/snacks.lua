@@ -33,6 +33,13 @@ return {
       desc = 'Smart Find Files',
     },
     {
+      '<leader>,',
+      function()
+        Snacks.picker.buffers()
+      end,
+      desc = 'Buffers',
+    },
+    {
       '<leader>/',
       function()
         Snacks.picker.grep()
@@ -67,6 +74,13 @@ return {
         Snacks.picker.buffers()
       end,
       desc = 'Buffers',
+    },
+    {
+      '<leader>fc',
+      function()
+        Snacks.picker.files { cwd = vim.fn.stdpath 'config' }
+      end,
+      desc = 'Find Config File',
     },
     {
       '<leader>sf',

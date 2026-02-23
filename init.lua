@@ -215,7 +215,21 @@ require('lazy').setup {
       },
     },
   },
-
+  {
+    'coder/claudecode.nvim',
+    dependencies = { 'folke/snacks.nvim' },
+    config = true,
+    opts = {
+      terminal = {
+        provider = 'none', -- no UI actions; server + tools remain available
+        diff_opts = {
+          auto_close_on_accept = true,
+          open_in_current_tab = true,
+        },
+      },
+      auto_start = true,
+    },
+  },
   {
     'stevearc/conform.nvim',
     event = { 'BufWritePre' },

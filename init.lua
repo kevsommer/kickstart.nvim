@@ -61,6 +61,7 @@ vim.opt.rtp:prepend(lazypath)
 -- You can configure plugins using the `config` key. This will automatically run
 --
 require('lazy').setup {
+  'kevsommer/foswiki.nvim',
   {
     'github/copilot.vim',
     config = function()

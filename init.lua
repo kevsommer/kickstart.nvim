@@ -62,6 +62,7 @@ vim.opt.rtp:prepend(lazypath)
 --
 require('lazy').setup {
   'kevsommer/foswiki.nvim',
+  { 'kevsommer/openapi-navigation.nvim', config = true },
   {
     'github/copilot.vim',
     config = function()
